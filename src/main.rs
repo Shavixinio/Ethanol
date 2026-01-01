@@ -1,7 +1,7 @@
 use crate::gtk::Entry;
 use gtk::prelude::*;
 use gtk::{Application, ApplicationWindow, glib};
-use gtk4::{self as gtk, Button};
+use gtk4::{self as gtk, AlertDialog, Button};
 use regex::Regex;
 
 fn edit_config(value: &str) -> Result<(), Box<dyn std::error::Error>> {
@@ -20,9 +20,9 @@ fn edit_config(value: &str) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 // TODO: Finish this
-// fn contains_letters(str: String) -> bool {
-//     str.chars().any(|c| !c.is_ascii_digit())
-// }
+fn contains_letters(str: &str) -> bool {
+    str.chars().any(|c| !c.is_ascii_digit())
+}
 
 fn main() -> glib::ExitCode {
     let app = Application::builder()
@@ -56,8 +56,17 @@ fn main() -> glib::ExitCode {
             .build();
 
         let value = fps_entry.clone();
-        apply_button.connect_clicked(move |_| {
-            let _ = edit_config(&value.text());
+        apply_button.connect_clicked(move |button| {
+            if contains_letters(&value.text()) {
+                let dialog = AlertDialog::builder()
+                    .message("Wrong value")
+                    .detail("The value cannot contain any letters")
+                    .modal(true)
+                    .build();
+                dialog.show(button.root().and_downcast_ref::<gtk::Window>());
+            } else {
+                let _ = edit_config(&value.text());
+            }
         });
 
         let container = gtk::Box::new(gtk::Orientation::Vertical, 0);
