@@ -60,7 +60,7 @@ fn main() -> glib::ExitCode {
             if contains_letters(&value.text()) {
                 let dialog = AlertDialog::builder()
                     .message("Wrong value")
-                    .detail("The value cannot contain any letters")
+                    .detail("The value can only contain whole numbers")
                     .modal(true)
                     .build();
                 dialog.show(button.root().and_downcast_ref::<gtk::Window>());
