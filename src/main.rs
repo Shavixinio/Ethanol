@@ -16,8 +16,7 @@ fn edit_config(value: &str) -> Result<(), Box<dyn std::error::Error>> {
     let new_content = re.replace(&content, replacement).to_string();
 
     std::fs::write(&path, new_content)?;
-
-    println!("The new FPS value is: {}", value);
+    dbg!("Set the new fps value {value}", value);
     Ok(())
 }
 // TODO: Finish this
@@ -47,11 +46,6 @@ fn main() -> glib::ExitCode {
             .valign(gtk::Align::Center)
             .input_purpose(gtk4::InputPurpose::Digits)
             .build();
-
-        fps_entry.connect_changed(|e| {
-            let txt = e.text();
-            println!("Entry changed: {}", txt);
-        });
 
         let apply_button = Button::builder()
             .label("Apply")
