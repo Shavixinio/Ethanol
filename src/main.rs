@@ -19,7 +19,7 @@ fn edit_config(value: &str) -> Result<(), Box<dyn std::error::Error>> {
     dbg!("Set the new fps value {value}", value);
     Ok(())
 }
-// TODO: Finish this
+
 fn contains_letters(str: &str) -> bool {
     str.chars().any(|c| !c.is_ascii_digit())
 }
